@@ -24,7 +24,7 @@ Enable the module:
 
 ```hocon
 # Enable redis cache plugin
-play.modules.enabled += "com.github.simondeponti.play26lettuce.LettuceModule"
+play.modules.enabled += "com.github.simonedeponti.play26lettuce.LettuceModule"
 ```
 
 Then (optionally) enable Kryo serialization, by adding:
