@@ -1,4 +1,4 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
 import play.api.Configuration
 import play.api.cache.SyncCacheApi

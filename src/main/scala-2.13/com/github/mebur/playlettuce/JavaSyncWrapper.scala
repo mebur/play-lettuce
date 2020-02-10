@@ -1,14 +1,15 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
+import java.util.Optional
 import java.util.concurrent.Callable
-import javax.inject.Inject
 
+import javax.inject.Inject
 import play.api.Configuration
 import play.cache.SyncCacheApi
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
-
+import scala.jdk.OptionConverters._
 
 /** A wrapper of the default [[LettuceCacheApi]] that provides [[play.cache.SyncCacheApi]]
   *
@@ -19,11 +20,11 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 class JavaSyncWrapper @Inject()(val acache: LettuceCacheApi, val configuration: Configuration)
                                (implicit val ec: ExecutionContext) extends SyncCacheApi with TimeoutConfigurable {
 
-  override def get[T](key: String): T = {
+  override def get[T](key: String): Optional[T] = {
     // NOTE: This is a bit weird and non-idiomatic but it's the only way it compiles
     //noinspection GetOrElseNull
     Await.result(
-      acache.javaGet[T](key).map(_.getOrElse(null).asInstanceOf[T]),
+      acache.javaGet[T](key).map(_.toJava),
       timeout
     )
   }

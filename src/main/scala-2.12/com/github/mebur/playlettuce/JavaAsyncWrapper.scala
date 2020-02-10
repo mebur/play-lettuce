@@ -1,8 +1,9 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
+import java.util.Optional
 import java.util.concurrent.{Callable, CompletionStage}
-import javax.inject.Inject
 
+import javax.inject.Inject
 import akka.Done
 import play.api.Configuration
 import play.cache.{AsyncCacheApi, SyncCacheApi}
@@ -10,7 +11,7 @@ import play.cache.{AsyncCacheApi, SyncCacheApi}
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.Duration
-
+import scala.compat.java8.OptionConverters._
 
 /** Java-compatible wrapper that implements [[play.cache.AsyncCacheApi]]
   *
@@ -23,10 +24,10 @@ class JavaAsyncWrapper @Inject()(val acache: LettuceCacheApi, val configuration:
 
   override def sync(): SyncCacheApi = new JavaSyncWrapper(acache, configuration)(ec)
 
-  override def get[T](key: String): CompletionStage[T] = {
+  override def get[T](key: String): CompletionStage[Optional[T]] = {
     // NOTE: This is a bit weird and non-idiomatic but it's the only way it compiles
     //noinspection GetOrElseNull
-    acache.javaGet[T](key).map(_.getOrElse(null).asInstanceOf[T]).toJava
+    acache.javaGet[T](key).map(_.asJava).toJava
   }
 
   override def set(key: String, value: scala.Any): CompletionStage[Done] = {

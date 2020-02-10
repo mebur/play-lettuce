@@ -1,4 +1,4 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
 import javax.inject.{Inject, Singleton}
 import akka.Done
@@ -16,21 +16,19 @@ import scala.concurrent.duration.Duration
 import scala.util.Try
 
 
-/** The base implementation of [[com.github.simonedeponti.play26lettuce.LettuceCacheApi]].
+/** The base implementation of [[LettuceCacheApi]].
   *
-  * @param system The current Akka actor system
+  * @param codec A lettuce RedisCodec that can be used to serialize AnyRef
   * @param configuration The application configuration
   * @param name The cache name (or "default" if missing)
   * @param ec The execution context to use
   */
 @Singleton
-class LettuceClient @Inject() (val system: ActorSystem, val configuration: Configuration, val name: String = "default")
+class LettuceClient @Inject() (protected val codec: AkkaCodec, val configuration: Configuration, val name: String = "default")
                               (implicit val ec: ExecutionContext) extends LettuceCacheApi {
 
   /** The [[io.lettuce.core.RedisClient]] instance that represents the connection to Redis **/
   private val client: RedisClient = RedisClient.create(configuration.get[String](s"lettuce.$name.url"))
-  /** The serialization codec (an [[com.github.simonedeponti.play26lettuce.AkkaCodec]] instance) **/
-  private val codec = new AkkaCodec(system)
   /** The redis commands bound to the specific client and encoder **/
   private val commands: RedisAsyncCommands[String, AnyRef] = client.connect(codec).async()
 
@@ -75,7 +73,7 @@ class LettuceClient @Inject() (val system: ActorSystem, val configuration: Confi
       case data: KeyValue[String, AnyRef] if data.hasValue => Some(data.getValue).asInstanceOf[Option[T]]
       case data: KeyValue[String, AnyRef] if !data.hasValue => None
       case null => None
-    })
+    }.toSeq)
   }
 
   override def getOrElseUpdate[A](key: String, expiration: Duration)(orElse: => Future[A])(implicit ctag: ClassTag[A]): Future[A] = {

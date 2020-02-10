@@ -1,4 +1,4 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
 import com.typesafe.config.ConfigException.Missing
 import play.cache.NamedCacheImpl

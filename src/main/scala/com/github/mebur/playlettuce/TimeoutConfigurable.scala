@@ -1,4 +1,4 @@
-package com.github.simonedeponti.play26lettuce
+package com.github.mebur.playlettuce
 
 import java.util.concurrent.TimeUnit
 
@@ -12,7 +12,7 @@ import scala.concurrent.duration.Duration
   * This trait should be used by wrappers only.
   */
 trait TimeoutConfigurable {
-  /** The [[com.github.simonedeponti.play26lettuce.LettuceCacheApi]] instance **/
+  /** The [[LettuceCacheApi]] instance **/
   val acache: LettuceCacheApi
   /** The application configuration **/
   val configuration: Configuration

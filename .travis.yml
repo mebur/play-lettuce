@@ -1,11 +1,11 @@
 language: scala
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 scala:
+  - 2.13.1
   - 2.12.7
-  - 2.11.12
 
 services:
   - redis-server

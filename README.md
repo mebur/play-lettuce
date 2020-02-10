@@ -1,10 +1,10 @@
-# play26-lettuce
+# play-lettuce
 
-[![Build Status](https://travis-ci.org/simonedeponti/play26-lettuce.svg?branch=master)](https://travis-ci.org/simonedeponti/play26-lettuce)
+[![Build Status](https://travis-ci.org/mebur/play-lettuce.svg?branch=master)](https://travis-ci.org/mebur/play-lettuce)
 
-A Redis cache plugin for Play 2.6+, based on lettuce (https://lettuce.io/).
+A Redis cache plugin for Play 2.8+, based on lettuce (https://lettuce.io/).
 
-It does support Scala (2.12 and 2.11) and Java `AsyncCacheApi` and `SyncCacheApi`.
+It does support Scala (2.13 and 2.12) and Java `AsyncCacheApi` and `SyncCacheApi`.
 
 It supports SSL, and therefore is suitable for use with Azure Redis Cache.
 
@@ -13,10 +13,10 @@ It supports SSL, and therefore is suitable for use with Azure Redis Cache.
 Add dependency to sbt (along with the resolver to BinTray):
 
 ```sbtshell
-libraryDependencies += "com.github.simonedeponti" %% "play26-lettuce" % "1.0.0"
+libraryDependencies += "com.github.mebur" %% "play-lettuce" % "1.1.0"
 
 resolvers ++= Seq(
-  "simonedeponti-bintray" at "https://dl.bintray.com/simonedeponti/maven"
+  "mebur-bintray" at "https://dl.bintray.com/mebur/maven"
 )
 ```
 
@@ -24,7 +24,7 @@ Enable the module:
 
 ```hocon
 # Enable redis cache plugin
-play.modules.enabled += "com.github.simondeponti.play26lettuce.LettuceModule"
+play.modules.enabled += "com.github.mebur.playlettuce.LettuceModule"
 ```
 
 Then (optionally) enable Kryo serialization, by adding:
@@ -115,6 +115,10 @@ lettuce.default.syncTimeout = 3s
 
 ## History
 
+### v1.1.0
+
+- Play 2.8 version
+
 ### v1.0.0
 
 - Added multiset/multiget support in custom interface (dominics)
@@ -132,7 +136,7 @@ lettuce.default.syncTimeout = 3s
 
 ### v0.2.1
 
-- Cross building scala 2.12 & 2.11
+- Cross building scala 2.13 & 2.12
 
 ### v0.2.0
 
